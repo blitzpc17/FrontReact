@@ -1,0 +1,21 @@
+.main-footer {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 2;
+  background-color: #999;
+  position: fixed;
+  bottom: 5px;
+  height: 65px;
+  width: 99%;
+}
+
+.tablitaFooter{  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  justify-content: center;
+}
+
+
+.p {
+  color: white;
+  font-size: 1em;
+}

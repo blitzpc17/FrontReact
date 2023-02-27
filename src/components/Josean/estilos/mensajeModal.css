@@ -1,0 +1,12 @@
+.tablaContacto{
+    text-align: left;    
+    text-align: left;
+   vertical-align: top;
+   margin: 15px;
+  padding: 15px;
+  border: rgb(189, 186, 186) 5px solid;
+}
+
+.td{
+    text-align: center;
+}

@@ -1,0 +1,6 @@
+.box {   
+    margin-left:250px; /* half of width */
+    margin-top:5px;  /* half of height */  
+    border: rgb(189, 186, 186) 5px solid;
+    text-align: center;
+}

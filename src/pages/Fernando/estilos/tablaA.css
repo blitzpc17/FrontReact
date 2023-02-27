@@ -1,0 +1,57 @@
+.tablaA{
+    
+    text-align:right; 
+    position:relative; 
+    padding-left:1000px;
+  }
+
+  .textoA{
+    text-align:center;
+    font-size: xx-large;
+    font-weight: bold;
+  }
+
+  .textoB{
+    text-align:center;
+    font-size: xx-large;
+    font-weight: bold;
+  }
+
+  .menuA{
+    text-align:right; 
+    position:relative; 
+    padding-left:200px;
+  }
+
+  .textodiv{
+    color : rgb(247, 9, 9);
+    text-align:center;
+    font-size: medium;
+    font-weight: bold;
+  }
+
+  .textodiv2{
+    color : rgb(2, 2, 2);
+    font-size: medium;
+    font-weight: bold;
+  }
+
+  .textA{
+    color : rgb(247, 9, 9);
+    text-align:center;
+    font-size: smaller;
+    font-weight: bold;
+  }
+
+  .textB{
+    color : rgb(2, 2, 2);
+    font-size: smaller;
+    font-weight: bold;
+  }
+
+
+  .setTable{
+    border: rgb(163, 163, 163) 5px solid;
+    position: absolute;
+    top: 0px; left: 1200px;
+  }

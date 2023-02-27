@@ -1,0 +1,46 @@
+#main {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background: #999;
+	color: white;
+	height: 100px;
+	font-size: 1em;
+	line-height: 1.5em;
+    width: 99%;
+	left: 0.5%;
+	top: 5px;
+	position: fixed;
+    z-index: 2;
+}
+
+#main-header {
+	float: left;
+	padding: 15px 0 0 20px;
+}
+
+.site-name {
+    display: block;
+    font-weight: 700;
+    font-size: 1.6em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#links {
+    display: block;
+    font-weight: 300;
+    font-size: 1em;
+    color: #000;
+    text-decoration: none;
+}
+
+#links:hover {
+    color: #0b76a6;
+}
+
+.final {
+    display: block;
+    font-weight: 300;
+    font-size: 1em;
+    color: #000;
+    text-decoration: none;
+}

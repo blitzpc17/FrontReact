@@ -1,0 +1,12 @@
+.tablaA{
+    
+    text-align:right; 
+    position:relative; 
+    padding-left:1000px;
+  }
+
+  .textoA{
+    text-align:center;
+    font-size: xx-large;
+    font-weight: bold;
+  }
