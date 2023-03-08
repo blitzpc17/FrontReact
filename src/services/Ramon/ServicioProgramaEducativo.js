@@ -10,19 +10,20 @@ export class ServicioProgramaEducativo{
 
 
     save(persona){
-        return axios.post(this.baseUrl + "save", persona).then(res => res.data);
+        console.log({persona})
+        return axios.post(this.baseUrl + "documentos/guardar", persona).then(res => res.data);
     }
 
     delete(id){
         return axios.get(this.baseUrl + "delete/" + id).then(res => res.data);
     }
 
-    searchByNombre(id){
-        return axios.get(this.baseUrl + "searchbydep/" + id).then(res => res.data);
+    ListarDocumentosPorDepto(deptoId){
+        return axios.get(this.baseUrl + "documentos/depto/listar/" + deptoId).then(res => res.data);
     }
 
-    comprobarPrograma(id,name){
-        return axios.get(this.baseUrl + "comprobarcarrera/" + id + "/" + name).then(res => res.data);
+    BuscarDocumentoNombre(deptoId, nombredoc){
+        return axios.get(this.baseUrl + "documentos/buscar/" + deptoId + "/" + nombredoc).then(res => res.data);
     }
 
 

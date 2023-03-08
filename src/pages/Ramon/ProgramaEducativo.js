@@ -7,9 +7,10 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
+
 import swal from 'sweetalert';
+import moment from 'moment/moment';
  
-import { ServicioCarreras } from '../../services/Josean/ServicioCarreras';
 import { ServicioProgramaEducativo } from '../../services/Ramon/ServicioProgramaEducativo';
 
 import Cookies from 'universal-cookie/es6';
@@ -26,12 +27,19 @@ const ProgramaEducativo = () => {
     const [tipo, setTipo] = useState("");
     const [fecha, setFecha] = useState("");
     const [enlace, setEnlace] = useState("");
+    const [departamentoId, setDepartamentoId] = useState("");
+   // const [rutaArchivo, setRutaArchivo] = useState("");
+    const [txtbtnfile, settxtbtnfile] = useState("");
+    const [fileselect, setFileselect] = useState(null);
+    const [urlArchivo, seturlArchivo] = useState(null);
+    const path_base = "/Documentos/Prueba/";
+
+
     const [id, setId] = useState("");
     const [btntitle, setbtntitle] = useState("")
 
     var cookiedep=cookies.get('id_Departamento');
 
-    var servicioCarreras = new ServicioCarreras();
     var servicioPrograma = new ServicioProgramaEducativo;
 
     useEffect(() => {
@@ -39,11 +47,6 @@ const ProgramaEducativo = () => {
             navigate('/plataforma/menu');
         else{
             if(cookies.get('actualTemp') === 'Programa Educativo'){
-               /* servicioCarreras.searchByDep(cookiedep).then(data =>{
-                    console.log(data)
-                    setCarreras(data);
-                });*/
-
                listar();
             }
             else
@@ -57,14 +60,17 @@ const ProgramaEducativo = () => {
     }
 
     function listar() {
-        return servicioPrograma.getAll().then(data => {
+        setDepartamentoId(cookiedep)
+        return servicioPrograma.ListarDocumentosPorDepto(cookiedep).then(data => {
             setDocumentos(data);
         });
     }
 
     const agregar = () => {
 
-        if(nombre ===null || nombre === ""){
+        if(nombre === null || nombre === "")
+        
+        {
 
             swal({
                 title: "¡Atención!",
@@ -75,69 +81,25 @@ const ProgramaEducativo = () => {
               });
               setVisible(true);
         }
-        else{
-/*
-                const carrera= {
-                    id_Carrera : idCarrera,
-                    id_Departamento: cookiedep,
-                    car_Nombre : nombre,
-                    car_creado_por : null,
-                    car_fecha_creacion : null,
-                    car_actualizado_por : null,
-                    car_fecha_actualizacion : null
-                }
-    
-                save(carrera)*/
+        else{   
 
-                const documento = {
-                    id: id,
-                    tipo:tipo,
-                    nombre:nombre,
-                    fecha:"2023-02-16",
-                    enlace:enlace
-                }
+                let formdata = new FormData();
+                formdata.append('id', id)
+                formdata.append('tipo', tipo)
+                formdata.append('nombre', nombre)
+                formdata.append('fecha', moment().format('YYYY-MM-DD'))
+                formdata.append('enlace', enlace)
+                formdata.append('id_Departamento', departamentoId)
+                formdata.append('file', fileselect)
 
-                save(documento)
+                save(formdata)
             }
         }
         
     
 
     const save = (documento) => {
-
-        /*servicioPrograma.comprobarPrograma(documento.id, documento.tipo, documento.nombre, documento.fecha).then(data => {
-            if(data.tipo !== undefined){
-                swal({
-                    title: "¡Atención!",
-                    text: "¡Ya existe el tipo de documento!",
-                    icon: "warning",
-                    button: "Aceptar",
-                    timer: "3000"
-                });
-
-                setVisible(true);
-            }
-            else{
-
-                servicioPrograma.save(documento).then((data) =>{
-    
-                    setDocumentos(null);
-        
-                    swal({
-                        title: "¡Atención!",
-                        text: "¡Se ha agregado el tipo de documento con Exito!",
-                        icon: "success",
-                        button: "Aceptar",
-                        timer: "3000"
-                      });
-        
-        
-                 
-                });
-                
-            }
-            
-        });*/
+        console.log(documento)
         servicioPrograma.save(documento).then((data)=>{
             setDocumentos(null);
         
@@ -176,7 +138,6 @@ const ProgramaEducativo = () => {
                         timer: "3000"
                         });
 
-                       // servicioCarreras.searchByDep(cookiedep).then(data => {setCarreras(data)})
                        listar();
 
                     });
@@ -197,20 +158,17 @@ const ProgramaEducativo = () => {
     const botonEliminar = (rowData) => {
         
         return (
-            //<React.Fragment> Fragmento simplificado abajo
             <>
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-danger" onClick={() => {eliminar(rowData)}} />
                 
             </>
-            //</React.Fragment>
         );
     }
 
     const botonModificar = (rowData) => {
-        
         return (
             <>
-                <Button icon="pi pi-pencil " className="p-button-rounded p-button-success" onClick={() => {setVisible(true) ; setId(rowData.id) ; setNombre(rowData.nombre) ; setEnlace(rowData.enlace) ; setTipo(rowData.tipo) ; setbtntitle("Modificar") }} />
+                <Button icon="pi pi-pencil " className="p-button-rounded p-button-success" onClick={() => {setVisible(true) ; setId(rowData.id) ; setNombre(rowData.nombre) ; setEnlace(rowData.enlace) ; setTipo(rowData.tipo) ; setbtntitle("Modificar") ; seturlArchivo(path_base+"/"+rowData.ruta_archivo ); settxtbtnfile(rowData.ruta_archivo+"\nCambiar archivo"); setFileselect(null)  }} />
             </>
         );
     }
@@ -227,62 +185,96 @@ const ProgramaEducativo = () => {
     const renderFooter = () => {
         return (
             <div>
-                <Button label={btntitle}   className='p-button-rounded p-button-primary' onClick={() => {setVisible(false) ; agregar()}}  />
-                <Button label="Cancelar"  className='p-button-rounded p-button-secondary' onClick={() => {setVisible(false)}}  />
+                <Button label={btntitle}   className='p-button-rounded p-button-primary' onClick={() => {setVisible(false) ; agregar() ; }}  />
+                <Button label="Cancelar"  className='p-button-rounded p-button-secondary' onClick={() => {setVisible(false) ; setbtntitle("Cargar Archivo"); setFileselect(null); seturlArchivo(null); }}  />
             </div>
         );
     }
+
+
+    const selectFileUpload = (file) =>{
+        const objUrl = URL.createObjectURL(file)
+        seturlArchivo(objUrl)
+
+    };
 
     return (
         <div className="card" >
                 <h1>Programa Educativo</h1>
                 <div className="card" >
                     <div style={{ display: "flex"}}>
-                        <Button onClick={()=>{setVisible(true) ; setNombre("") ; setId("") ; setbtntitle("Agregar") ; setEnlace("") ; setTipo("") ;}} 
+                        <Button onClick={()=>{setVisible(true) ; setNombre("") ; setId("") ; setbtntitle("Agregar") ; setEnlace("") ; setTipo("") ; settxtbtnfile("Cargar Archivo"); setFileselect(null); seturlArchivo("")}} 
                         style={{ marginLeft: "auto" , marginBottom:"1em", backgroundColor:"blue", borderColor:"blue"}} label="Agregar" icon="pi pi-file" iconPos="left" />
                     </div>
                     
                         <DataTable value={documentos}  scrollHeight="480px"  responsiveLayout="scroll" >
-                        <Column header="Tipo de Documento" value={tipo} field='tipo'  exportable={false} ></Column> 
-                        <Column header="Fecha" value={fecha} field='fecha'  exportable={false} ></Column>
-                        <Column header="Nombre del Documento" value={nombre} field='nombre'  exportable={false} ></Column>
-                        <Column header="Ver" body={botonVer} exportable={false} ></Column>
-                        <Column header="Modificar" body={botonModificar} exportable={false} ></Column>
-                        <Column header="Eliminar" body={botonEliminar} exportable={false}  ></Column>
+                            <Column header="Tipo de Documento" value={tipo} field='tipo'  exportable={false} ></Column> 
+                            <Column header="Fecha" value={ moment(fecha).format('YYYY-MM-DD')} field='fecha'  exportable={false} ></Column>
+                            <Column header="Nombre del Documento" value={nombre} field='nombre'  exportable={false} ></Column>
+                            <Column header="Ver" body={botonVer} exportable={false} ></Column>
+                            <Column header="Modificar" body={botonModificar} exportable={false} ></Column>
+                            <Column header="Eliminar" body={botonEliminar} exportable={false}  ></Column>
                         </DataTable>
                 </div>
            
             
-                <Dialog header="Nuevo tipo documento" visible={visible} style={{ width:'50vw'}} onHide={onHide} modal={true}  footer={renderFooter}>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td>                                  
-                                    <h5>Nombre del documento</h5>
-                                    <InputText  type="text" 
-                                    value={nombre} onChange={(e) => {setNombre(e.target.value)}} style={{width:"100%"}}  />                                    
+                <Dialog header="Nuevo documento" visible={visible} style={{ width:'80vw'}} onHide={onHide} modal={true}  footer={renderFooter}>
+                    <div style={{ width:"100%", display:"flex"}}>
+                        <div style={{width:"35%", heigth:"100vh", padding:"1rem", display:"flex", justifyContent:"center", alignItems:"center"}}>
+                        <table style={{width:"100%"}}>
+                            <tbody>
+                            <tr>
+                                <td>                                  
+                                        <h5>Nombre del documento</h5>
+                                        <InputText  type="text" 
+                                        value={nombre} onChange={(e) => {setNombre(e.target.value)}} style={{width:"100%"}}  />                                    
 
-                            </td>                           
-                        </tr>
-                        <tr>
-                        <td>                                
-                                    <h5>Tipo de documento</h5>
-                                    <InputText  type="text" 
-                                    value={tipo} onChange={(e) => {setTipo(e.target.value)}} style={{width:"100%"}}  />                                    
-                            </td>
-                        </tr>
-                        <tr>
-                            
-                        <td>
-                                    <h5>Agregar enlace:</h5>
-                                    <InputText  type="text" 
-                                    value={enlace} onChange={(e) => {setEnlace(e.target.value)}} style={{width:"100%"}}  />
-                            </td>
-                        </tr>
+                                </td>                           
+                            </tr>
+                            <tr>
+                                <td>                                
+                                        <h5>Tipo de documento</h5>
+                                        <InputText  type="text" 
+                                        value={tipo} onChange={(e) => {setTipo(e.target.value)}} style={{width:"100%"}}  />                                    
+                                </td>
+                            </tr>
+                            <tr>                            
+                                <td>
+                                        <h5>Agregar enlace:</h5>
+                                        <InputText  type="text" 
+                                        value={enlace} onChange={(e) => {setEnlace(e.target.value)}} style={{width:"100%"}}  />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5>Cargar archivo</h5>
+                                    <Button label={txtbtnfile} onClick={() => {document.getElementById("inputFileR").click()}} />
+                                 
+                                </td>
+                                   
+                            </tr>
 
-                        </tbody>
-                    </table>
-                    <InputText type="hidden" value = {id} />
+
+                            </tbody>
+                        </table>
+                        <InputText type="hidden" value = {id} />
+                        <input type="file" id="inputFileR" hidden accept=".pdf" onChange={(e) => {settxtbtnfile(e.target.files[0].name) ; setFileselect(e.target.files[0]) ; selectFileUpload(e.target.files[0]);  /* setRutaArchivo(nombre+".pdf")*/}}/>
+                        </div>
+                        <div style={{width:"65%"}}>
+
+                            <iframe id="iframe"
+                                title={txtbtnfile}                                      
+                                src={urlArchivo}
+                                style={{width:"100%", height:"100%"}} 
+                            ></iframe>
+                      
+        
+
+        
+                        </div>
+                    </div>
+                  
+                
                 </Dialog>
             
         </div>
