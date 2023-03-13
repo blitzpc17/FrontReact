@@ -26,6 +26,10 @@ export class ServicioProgramaEducativo{
         return axios.get(this.baseUrl + "documentos/buscar/" + deptoId + "/" + nombredoc).then(res => res.data);
     }
 
+    ListarReportesLaboratorio(deptoId){
+        return axios.get(this.baseUrl + "documentos/files/listar/"+ deptoId).then(res => res.data);
+    }
+
 
     
 
