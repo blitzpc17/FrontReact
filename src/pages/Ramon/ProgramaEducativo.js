@@ -129,7 +129,6 @@ const ProgramaEducativo = () => {
 
         servicioPrograma.ListarReportesLaboratorio(cookiedep).then(data =>{
             setReportes(data);
-            console.log(data)
         });
     }
 
@@ -166,7 +165,6 @@ const ProgramaEducativo = () => {
     
 
     const save = (documento) => {
-        console.log(documento)
         servicioPrograma.save(documento).then((data)=>{
             setDocumentos(null);
         
@@ -241,7 +239,6 @@ const ProgramaEducativo = () => {
     }
 
     const botonVer = (rowData) => {
-        console.log(rowData)
         return (
             <>
                 <Link to={rowData.enlace?rowData.enlace:'/Documentos/Prueba/'+rowData.ruta_archivo} target="_blank"><Button icon="pi pi-download" className="p-button-rounded p-button-danger" /></Link>
@@ -283,6 +280,14 @@ const ProgramaEducativo = () => {
         );
     };
 
+    const fieldFechaDocumento = (rowData) => {
+        return (
+            <div>
+                {moment(rowData.fecha).format('DD-MM-YYYY')}
+            </div>
+        );
+    }
+
   
     return (
         <div className="card" >
@@ -297,7 +302,7 @@ const ProgramaEducativo = () => {
                     
                         <DataTable value={documentos}  scrollHeight="480px"  responsiveLayout="scroll" >
                             <Column header="Tipo de Documento" value={tipo} field='tipo'  exportable={false} ></Column> 
-                            <Column header="Fecha" value={ moment(fecha).format('YYYY-MM-DD')} field='fecha'  exportable={false} ></Column>
+                            <Column header="Fecha" body={fieldFechaDocumento}  exportable={false} ></Column>
                             <Column header="Nombre del Documento" value={nombre} field='nombre'  exportable={false} ></Column>
                             <Column header="Ver" body={botonVer} exportable={false} ></Column>
                             <Column header="Modificar" body={botonModificar} exportable={false} ></Column>
@@ -330,7 +335,7 @@ const ProgramaEducativo = () => {
                                 <td>
                                         <h5>Agregar enlace:</h5>
                                         <InputText  type="text" 
-                                        value={enlace} onChange={(e) => {setEnlace(e.target.value)}} style={{width:"100%"}}  />
+                                        value={enlace} onChange={(e) => {setEnlace(e.target.value==null?'':e.target.value)}} style={{width:"100%"}}  />
                                 </td>
                             </tr>
                             <tr>

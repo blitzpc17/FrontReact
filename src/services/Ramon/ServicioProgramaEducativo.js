@@ -7,10 +7,8 @@ export class ServicioProgramaEducativo{
     getAll(){
         return axios.get(this.baseUrl + "all").then(res => res.data);
     }
-
-
+    
     save(persona){
-        console.log({persona})
         return axios.post(this.baseUrl + "documentos/guardar", persona).then(res => res.data);
     }
 
