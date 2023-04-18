@@ -99,6 +99,7 @@ import Carreras from '../pages/Josean/Carreras';
 import SoporteInstitucional from '../pages/Ramon/SoporteInstitucional';
 import LiderazgoInstitucional from '../pages/Ramon/LiderazgoInstitucional';
 import ProgramaEducativo from '../pages/Ramon/ProgramaEducativo';
+import RecursosFinancieros from '../pages/Ramon/Periodos';
 
 const cookies = new Cookies();
 
@@ -152,6 +153,8 @@ const RouteAuth = () => {
               <Route  path="/soporteinstitucional" element={<SoporteInstitucional/>}/>
               <Route  path="/soporteinstitucional/liderazgoinstitucional" element={<LiderazgoInstitucional/>}/>
               <Route  path="/soporteinstitucional/liderazgoinstitucional/programaeducativo" element={<ProgramaEducativo/>}/>
+
+              <Route  path="/recursosfinancieros" element={<RecursosFinancieros/>}/>
 
               {/*  Jefe de Proyectos de Docencia */}
               <Route  path="/periodosjefedocencia" element={<PeriodosDocencia/>}/>

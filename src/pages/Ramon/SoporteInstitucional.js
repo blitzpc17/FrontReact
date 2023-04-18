@@ -48,7 +48,7 @@ const SoporteInstitucional = () => {
                         <tr>
                             <td style={{ paddingBottom: '80px' }}><Button label="LIDERAZGO INSTITUCIONAL" icon="pi pi-chevron-circle-right" className="p-button-lg p-button-primary" style={{ width: '350px', height: '70px' }} onClick={ () => cambiarBreadLocal('Liderazgo Institucional', 'soporteinstitucional/liderazgoinstitucional') }/></td>
                             <td style={{ paddingBottom: '80px' }}><Button label="SERVICIOS INSTITUCIONALES" icon="pi pi-chevron-circle-right" className="p-button-lg p-button-success" style={{ width: '350px', height: '70px' }} onClick={() => cambiarBreadLocal('Catálogo de Cursos', 'catalogocursos')}/></td>
-                            <td style={{ paddingBottom: '80px' }}><Button label="RECURSOS FINANCIEROS" icon="pi pi-chevron-circle-right" className="p-button-lg p-button-help" style={{ width: '350px', height: '70px' }} onClick={ () => cambiarBreadLocal('Laboratorios', 'laboratorios') }/></td>
+                            <td style={{ paddingBottom: '80px' }}><Button label="RECURSOS FINANCIEROS" icon="pi pi-chevron-circle-right" className="p-button-lg p-button-help" style={{ width: '350px', height: '70px' }} onClick={ () => cambiarBreadLocal('Recursos Financieros', 'recursosfinancieros') }/></td>
                             <td style={{ paddingBottom: '80px' }}><Button label="PERSONAL DE APOYO" icon="pi pi-chevron-circle-right" className="p-button-lg p-button-help" style={{ width: '350px', height: '70px' }} onClick={ () => cambiarBreadLocal('Laboratorios', 'laboratorios') }/></td>
                         </tr>
                        
