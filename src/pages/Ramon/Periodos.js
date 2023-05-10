@@ -39,7 +39,7 @@ const PeriodosFinanciero = () => {
     const [poaEvidencia, setPoaEvidencia] = useState(null);
     const [pta, setPta] = useState(null);
     const [ptaEvidencia, setPtaEvidencia] = useState(null);
-    const [matriculaDepartamentoId, setMatriculaDepartamentoId] = useState(null);
+    const [matricula, setMatricula] = useState(null);
     const [pagoInscripcion, setPagoInscripcion] = useState(null);
     const [montoCaptado, setMontoCaptado] = useState(null);
     const [montoCaptadoTotal, setMontoCaptadoTotal] = useState(null);
@@ -64,6 +64,12 @@ const PeriodosFinanciero = () => {
     const[capTotal,  setCapTotal] = useState(null);
     const[capTotalP, setCapTotalP] = useState(null);
     const[capTotalE, setCapTotalE] = useState(null);
+
+
+    //formdatas
+    let formDataEjercido;
+    let formDataAsignado;
+    let formDataProgramado;
 
 
 
@@ -300,6 +306,66 @@ const PeriodosFinanciero = () => {
         }
     }
 
+    const calcularMontoCaptado = () => {
+
+        let valorPi = document.getElementById('pagoInscripcion').value
+        let valorMt = document.getElementById('matricula').value
+
+        if(Number.isNaN(valorPi) || valorPi === '')
+        {
+            valorPi = 0   
+            setPagoInscripcion(valorPi) 
+        }
+        else if(Number.parseFloat(valorPi)!=0)
+        {
+            valorPi = Number.parseFloat(valorPi)
+            setPagoInscripcion(valorPi)            
+        }
+
+
+        if(Number.isNaN(valorMt) || valorMt === '')
+        {            
+            valorMt = 0
+            setMatricula(valorMt)
+            
+        }
+        else if(Number.parseFloat(valorMt)!=0)
+        {
+            valorMt = Number.parseFloat(valorMt)
+            setMatricula(valorMt)            
+        }
+
+        setMontoCaptado(parseFloat(parseFloat(valorPi) + parseFloat(valorMt)).toFixed(2))
+    }
+
+    const calcularMontoTotalCaptado = () => {
+
+    }
+
+    const calcularTotalEjercido =  () => {
+
+        let cap2 = document.getElementById('cp2').value
+        let cap2p = document.getElementById('cpp2').value
+        let cap3 = document.getElementById('cp3').value
+        let cap3p = document.getElementById('cpp3').value
+        let cap4 = document.getElementById('cp4').value
+        let cap4p = document.getElementById('cpp4').value
+        let cap5 = document.getElementById('cp5').value
+        let cap5p = document.getElementById('cpp5').value
+        let otros = document.getElementById('otros').value
+        let otrospp = document.getElementById('otrospp').value
+
+        
+
+    }
+
+    const calcularTotalProgramado = () => {
+
+    }
+
+
+    
+
     return <div>
         <h1 style={{ textAlign: 'center' }}>PERIODOS RECURSOS FINANCIEROS</h1>
         <DataTable value={periodos} responsiveLayout="scroll">
@@ -319,27 +385,7 @@ const PeriodosFinanciero = () => {
                         <tbody>
                             <tr>
                                 <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>POA <i className="pi pi-arrow-up"></i></h5>                                                                        
-
-                                </td>   
-                                <td>
-                                        <InputText  type="text" value={poa} onChange={(e) => {setPoa(e.target.value)}} />  
-                                </td>                                                    
-                            </tr>
-
-                            <tr>
-                                <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>PTA <i className="pi pi-arrow-up"></i></h5>                                                                        
-
-                                </td>   
-                                <td>
-                                        <InputText  type="text" value={pta} onChange={(e) => { setPta(e.target.value) } } />  
-                                </td>                                                    
-                            </tr>
-
-                            <tr>
-                                <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>MATRÍCULA <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                    <h5 style={{textAlign:'right', padding:'1rem'}}>PROG. EDUCATIVO</h5>                                                                        
 
                                 </td>   
                                 <td>
@@ -350,27 +396,56 @@ const PeriodosFinanciero = () => {
 
                             <tr>
                                 <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>PAGO INSCRIPCIÓN <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>POA</h5>                                                                        
 
                                 </td>   
                                 <td>
-                                        <InputText  type="text" value={pagoInscripcion} onChange={ (e) => { setPagoInscripcion(e.target.value) } } />  
+                                        <InputText  type="text" value={poa} onChange={(e) => {setPoa(e.target.value)}} />  
                                 </td>                                                    
                             </tr>
 
                             <tr>
                                 <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>MONTO CAPTADO <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>PTA</h5>                                                                        
 
                                 </td>   
                                 <td>
-                                        <InputText  type="text" value={montoCaptado} onChange={ (e) => { setMontoCaptado(e.target.value) } } />  
+                                        <InputText  type="text" value={pta} onChange={(e) => { setPta(e.target.value) } } />  
                                 </td>                                                    
                             </tr>
 
                             <tr>
                                 <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>MONTO CAPTADO TOTAL <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                    <h5 style={{textAlign:'right', padding:'1rem'}}>MATRÍCULA</h5> 
+                                </td>   
+                                <td>
+                                    <InputText id="matricula"  type="text" value={matricula} onChange={ (e) => { setMatricula(e.target.value); calcularMontoCaptado(); } } />
+                                </td>                                                    
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>PAGO INSCRIPCIÓN</h5>                                                                        
+
+                                </td>   
+                                <td>
+                                        <InputText id="pagoInscripcion"  type="text" value={pagoInscripcion} onChange={ (e) => { setPagoInscripcion(e.target.value); calcularMontoCaptado(); } } />  
+                                </td>                                                    
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>MONTO CAPTADO</h5>                                                                        
+
+                                </td>   
+                                <td>
+                                        <InputText  type="text" value={montoCaptado} /*onChange={ (e) => { setMontoCaptado(e.target.value) } }*/ />  
+                                </td>                                                    
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>MONTO CAPTADO TOTAL</h5>                                                                        
 
                                 </td>   
                                 <td>
@@ -386,7 +461,18 @@ const PeriodosFinanciero = () => {
                         <tbody>
                             <tr>
                                 <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 2000 <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>PROG. EDUCATIVO</h5>                                                                        
+
+                                </td>   
+                                <td colSpan={3}>
+                                <Dropdown value={selectDepartamentos} onChange={(e) => { setSelectDepartamentos(e.target.value); }} options={opcDeptosElectronica} optionLabel="name" 
+                                        placeholder="Seleccione departamento" className="w-full md:w-14rem" />  
+                                </td>                                                    
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 2000</h5>                                                                        
 
                                 </td>   
                                 <td>
@@ -408,21 +494,9 @@ const PeriodosFinanciero = () => {
                                 </td>                                               
                             </tr>
 
-                            
                             <tr>
                                 <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>MATRÍCULA <i className="pi pi-arrow-up"></i></h5>                                                                        
-
-                                </td>   
-                                <td colSpan={3}>
-                                <Dropdown value={selectDepartamentos} onChange={(e) => { setSelectDepartamentos(e.target.value); }} options={opcDeptosElectronica} optionLabel="name" 
-                                        placeholder="Seleccione departamento" className="w-full md:w-14rem" />  
-                                </td>                                                    
-                            </tr>
-
-                            <tr>
-                                <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 3000 <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 3000</h5>                                                                        
 
                                 </td> 
                                 <td>
@@ -447,7 +521,7 @@ const PeriodosFinanciero = () => {
 
                             <tr>
                                 <td>                                  
-                                    <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 4000 <i className="pi pi-arrow-up"></i></h5>
+                                    <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 4000</h5>
                                 </td>   
                                 <td>
                                     <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
@@ -470,7 +544,7 @@ const PeriodosFinanciero = () => {
 
                             <tr>
                                 <td>                                  
-                                    <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 5000 <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                    <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 5000</h5>                                                                        
 
                                 </td>   
                                 <td>
@@ -494,7 +568,7 @@ const PeriodosFinanciero = () => {
 
                             <tr>
                                 <td>                                  
-                                    <h5 style={{textAlign:'right', padding:'1rem'}}>OTROS <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                    <h5 style={{textAlign:'right', padding:'1rem'}}>OTROS</h5>                                                                        
 
                                 </td>   
                                 <td>
@@ -518,7 +592,168 @@ const PeriodosFinanciero = () => {
 
                             <tr>
                                 <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>TOTAL <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>TOTAL</h5>                                                                        
+
+                                </td>   
+                                <td>
+                                        <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-dollar'></i>
+                                            <InputText  type="text" 
+                                               value={capTotal} onChange={(e)=>{setCapTotal(e.target.value)}} />  
+                                        </div> 
+                                </td>    
+                                <td>
+
+                                        <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-percentage'></i>
+                                            <InputText  type="text" 
+                                              value={capTotalP} onChange={(e)=>{setCapTotalP(e.target.value)}} />  
+                                        </div>
+                                      
+                                </td>       
+                                <td>
+                                    <Button icon="pi pi-file-pdf" rounded text severity="danger" />
+                                </td>                                           
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table style={{width:"100%", display: showEjercido }}>
+                        <tbody>
+                            <tr>
+                                <td>                                  
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>PROG. EDUCATIVO</h5>                                                                        
+
+                                </td>   
+                                <td colSpan={3}>
+                                <Dropdown value={selectDepartamentos} onChange={(e) => { setSelectDepartamentos(e.target.value); }} options={opcDeptosElectronica} optionLabel="name" 
+                                        placeholder="Seleccione departamento" className="w-full md:w-14rem" />  
+                                </td>                                                    
+                            </tr>                     
+
+                            <tr>
+                                <td>                                  
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 2000</h5>                                                                        
+
+                                </td>   
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-dollar'></i>
+                                            <InputText  type="text"  
+                                            value={capDos} onChange={(e)=>{setCapDos(e.target.value)}} />  
+                                    </div> 
+                                </td>  
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-percentage'></i>
+                                            <InputText  type="text" 
+                                               value={capDosP} onChange={(e)=>{setCapDosP(e.target.value)}} />  
+                                    </div> 
+                                </td> 
+                                <td>
+                                    <Button icon="pi pi-file-pdf" rounded text severity="danger" />
+                                </td>                                               
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 3000</h5>                                                                        
+
+                                </td> 
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-dollar'></i>
+                                            <InputText  type="text" 
+                                            value={capTres} onChange={(e)=>{setCapTres(e.target.value)}} />   
+                                    </div> 
+                                </td>  
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-percentage'></i>
+                                            <InputText  type="text" 
+                                               value={capTresP} onChange={(e)=>{setCapTresP(e.target.value)}} />  
+                                    </div> 
+                                </td>   
+                                <td>
+                                    <Button icon="pi pi-file-pdf" rounded text severity="danger" />
+                                </td>   
+                                                                               
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                    <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 4000</h5>
+                                </td>   
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-dollar'></i>
+                                            <InputText  type="text" 
+                                               value={capCuatro} onChange={(e)=>{setCapCuatro(e.target.value)}} />  
+                                    </div> 
+                                </td>  
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-percentage'></i>
+                                            <InputText  type="text" 
+                                               value={capCuatroP} onChange={(e)=>{setCapCuatroP(e.target.value)}} />  
+                                    </div> 
+                                </td>   
+                                <td>
+                                    <Button icon="pi pi-file-pdf" rounded text severity="danger" />
+                                </td>                                                
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                    <h5 style={{textAlign:'right', padding:'1rem'}}>CAP 5000</h5>                                                                        
+
+                                </td>   
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                            <i className='pi pi-dollar'></i>
+                                            <InputText  type="text" 
+                                               value={capCinco} onChange={(e)=>{setCapCinco(e.target.value)}} />   
+                                    </div> 
+                                </td>    
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                        <i className='pi pi-percentage'></i>
+                                        <InputText  type="text" 
+                                           value={capCincoP} onChange={(e)=>{setCapCincoP(e.target.value)}} />  
+                                    </div>
+                                </td>  
+                                <td>
+                                    <Button icon="pi pi-file-pdf" rounded text severity="danger" />
+                                </td>                                                
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                    <h5 style={{textAlign:'right', padding:'1rem'}}>OTROS</h5>                                                                        
+
+                                </td>   
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                        <i className='pi pi-dollar'></i>
+                                        <InputText  type="text" 
+                                           value={capOtros} onChange={(e)=>{setCapOtros(e.target.value)}} />    
+                                    </div>
+                                </td>    
+                                <td>
+                                    <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                                        <i className='pi pi-percentage'></i>
+                                        <InputText  type="text" 
+                                           value={capOtrosP} onChange={(e)=>{setCapOtrosP(e.target.value)}} />   
+                                    </div>
+                                </td>  
+                                <td>
+                                    <Button icon="pi pi-file-pdf" rounded text severity="danger" />
+                                </td>                                               
+                            </tr>
+
+                            <tr>
+                                <td>                                  
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>TOTAL</h5>                                                                        
 
                                 </td>   
                                 <td>
@@ -542,44 +777,28 @@ const PeriodosFinanciero = () => {
                                 </td>                                           
                             </tr>
 
-                        </tbody>
-                    </table>
-
-                    <table style={{width:"100%", display: showEjercido }}>
-                        <tbody>
                             <tr>
                                 <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>MATRÍCULA <i className="pi pi-arrow-up"></i></h5>                                                                        
-
-                                </td>   
-                                <td colSpan={3}>
-                                <Dropdown value={selectDepartamentos} onChange={(e) => { setSelectDepartamentos(e.target.value); }} options={opcDeptosElectronica} optionLabel="name" 
-                                        placeholder="Seleccione departamento" className="w-full md:w-14rem" />  
-                                </td>                                                    
-                            </tr>
-                            <tr>
-                                <td>                                  
-                                        <h5 style={{textAlign:'right', padding:'1rem'}}>Cap 2000 <i className="pi pi-arrow-up"></i></h5>                                                                        
+                                        <h5 style={{textAlign:'right', padding:'1rem'}}>RECURSO<br></br>NO EJERCIDO</h5>                                                                        
 
                                 </td>   
                                 <td>
                                     <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
                                             <i className='pi pi-dollar'></i>
-                                            <InputText  type="text" 
-                                               value={capEDos} onChange={(e)=>{setECapDos(e.target.value)}} />  
+                                            <InputText  type="text"  
+                                            value={capDos} onChange={(e)=>{setCapDos(e.target.value)}} />  
                                     </div> 
                                 </td>  
                                 <td>
                                     <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
                                             <i className='pi pi-percentage'></i>
                                             <InputText  type="text" 
-                                               value={capEDosP} onChange={(e)=>{setECapDosP (e.target.value)}} />  
+                                               value={capDosP} onChange={(e)=>{setCapDosP(e.target.value)}} />  
                                     </div> 
-                                </td>  
+                                </td> 
                                 <td>
                                     <Button icon="pi pi-file-pdf" rounded text severity="danger" />
-                                </td>  
-                                                                                    
+                                </td>                                               
                             </tr>
 
                             
