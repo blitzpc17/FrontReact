@@ -527,6 +527,7 @@ const PeriodosFinanciero = () => {
         setMontoCaptado('')
         setMontoCaptadoTotal('')
         setSelectDepartamentos('')
+        setIdRa('')
     }
 
 
