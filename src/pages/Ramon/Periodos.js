@@ -348,7 +348,7 @@ const PeriodosFinanciero = () => {
     }
 
     const Guardar = () => {
-       // console.log(selectDepartamentos)
+        console.log(selectDepartamentos)
         let formdata = new FormData();
             formdata.append('PeriodoId', periodoId)
             formdata.append('DepartamentoId', selectDepartamentos.code)
@@ -824,6 +824,7 @@ const PeriodosFinanciero = () => {
         setSelectDepartamentos('')
 
         setUrlArchivo('')
+        graficar(null, null)
     }
 
 
